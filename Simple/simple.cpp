@@ -1,34 +1,26 @@
-#include <iostream>
 #include <cstdio>
+#include <iostream>
 #include <cctype>
 #include <cstdlib>
 #include "lex.cpp"
+
 using namespace std;
 
 void list();
 void term();
 void x();
-void match(char);
+void match(int);
 void print(char);
 
 token lookahead;
 
 void print_char(char c){
-    print("%c",)
+    printf("%c ", c);
 }
-// string input;
-// int pos = 0;
 
-//char next peek ou next char
-
-// char nextToken(){
-//     if(pos < input.length()){
-//         return input[pos++];
-//     }
-//     else{
-//         return EOF;
-//     }
-// }
+void print_int(int i){
+    printf("%d ", i);
+}
 
 void list(){
     term();
@@ -36,48 +28,38 @@ void list(){
 }
 
 void x(){
-      if (lookahead.type == 'PLUS') {
-        match(PLUS); term(); print('+'); x();
-    }
-    else if (lookahead.type == MINUS){
-        match(MINUS); term(); print('-'); x();
-    }
-    else if (lookahead.type == EOF){
-        printf("\nSuccesso.\n");
-    }
-    else {
+    if (lookahead.type == PLUS) {
+        match(PLUS); term(); print_char('+'); x();
+    } else if (lookahead.type == MINUS){
+        match(MINUS); term(); print_char('-'); x();
+    } else if (lookahead.type == EOF){
+        printf("\nSuccess.\n");
+    } else {
         printf("Syntax error on x\n");
         exit(1);
     }
 }
 
 void term(){
-    // if (isalpha(lookahead)){ //var
-    //     match(lookahead);
-    // } else
-    
-    if (isdigit(lookahead.type == NUM)) {
-        print(lookahead.value);
+    if (lookahead.type == NUM) {
+        print_int(lookahead.value);
         match(NUM);
-    }
-    else {
+    } else {
         printf("Syntax error on term\n");
         exit(1);
     }
 }
 
 void match(int type){
-    //printf("match %c\n", s);
-    if(lookahead.type == type){
+    if (lookahead.type == type){
         lookahead = next_token();
-    }
-    else{
-        printf("Match Error");
+    } else {
+        printf("Match error");
     }
 }
 
 int main(){
     input = "123-321+111";
-    lookahead = nextToken();
+    lookahead = next_token();
     list();
 }
